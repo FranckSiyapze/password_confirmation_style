@@ -1,7 +1,7 @@
 name: password_confirmation_style
-description: An assisted password confirmation package
+description: An assisted password confirmation that validates if the password matches and can disable the login button if it doesn't.
 version: 0.0.1
-homepage:
+homepage: https://github.com/FranckSiyapze/password_confirmation_style
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
