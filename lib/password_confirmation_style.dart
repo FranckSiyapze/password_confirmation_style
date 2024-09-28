@@ -89,7 +89,6 @@ class PasswordConfirmationStyle extends StatefulWidget {
   /// Max length for password input.
   final int? maxLengthPassword;
 
-
   /// Character used for obscuring password.
   final String? obscuringCharacterPassword;
 
@@ -243,7 +242,8 @@ class PasswordConfirmationStyle extends StatefulWidget {
   });
 
   @override
-  State<PasswordConfirmationStyle> createState() => PasswordConfirmationStyleState();
+  State<PasswordConfirmationStyle> createState() =>
+      PasswordConfirmationStyleState();
 }
 
 /// The [PasswordConfirmationStyle] widget allows customization through various
@@ -274,7 +274,8 @@ class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
 
   bool _allValuesAreSame(List<bool> comparisonResults) {
     final distinctValues = comparisonResults.toSet();
-    return distinctValues.length == 1 && distinctValues.first; // All true or all false
+    return distinctValues.length == 1 &&
+        distinctValues.first; // All true or all false
   }
 
   @override
@@ -285,10 +286,11 @@ class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
           padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
           child: TextFormField(
             controller: widget.passwordController,
-            style: widget.stylePassword ?? const TextStyle(
-              letterSpacing: 1.4,
-              fontSize: 16,
-            ),
+            style: widget.stylePassword ??
+                const TextStyle(
+                  letterSpacing: 1.4,
+                  fontSize: 16,
+                ),
             decoration: widget.inputDecorationPassword,
             validator: widget.validatorPassword,
             onChanged: (value) {
@@ -297,13 +299,13 @@ class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
                 _numberBullet = value.length; // Update bullet count
               });
             },
-            onTap: (){
+            onTap: () {
               widget.onTapPassword;
             },
-            onEditingComplete: (){
+            onEditingComplete: () {
               widget.onEditionCompletePassword;
             },
-            onFieldSubmitted: (value){
+            onFieldSubmitted: (value) {
               widget.onFieldSubmittedPassword?.call(value);
             },
             maxLength: widget.maxLengthPassword,
@@ -316,11 +318,8 @@ class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
             cursorHeight: widget.cursorHeightPassword,
             cursorColor: widget.cursorColorPassword,
             scrollPadding: widget.scrollPaddingPassword!,
-
-
           ),
         ),
-
         Container(
           padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width / 25,
@@ -331,7 +330,9 @@ class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
             children: List.generate(_numberBullet, (index) {
               Color bgColor;
               if (index < _charComparisonResults.length) {
-                bgColor = _charComparisonResults[index] ? widget.iconColorMatched! : widget.iconColorUnMatched!;
+                bgColor = _charComparisonResults[index]
+                    ? widget.iconColorMatched!
+                    : widget.iconColorUnMatched!;
               } else {
                 bgColor = widget.iconColorInitial!; // No comparison yet
               }
@@ -349,23 +350,27 @@ class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
             }),
           ),
         ),
-
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
           child: TextFormField(
             controller: widget.passwordConfirmationController,
-            style: widget.stylePasswordConfirmation ?? const TextStyle(
-              letterSpacing: 1.4,
-            ),
+            style: widget.stylePasswordConfirmation ??
+                const TextStyle(
+                  letterSpacing: 1.4,
+                ),
             readOnly: (_numberBullet == 0),
             decoration: widget.inputDecorationPasswordConfirmation,
             onChanged: (value) {
               _compareChars(value);
               widget.onChangedPasswordConfirmation?.call(value);
               if (value.length > _numberBullet) {
-                widget.passwordConfirmationController.text = value.substring(0, _numberBullet); // Limit input
-                widget.passwordConfirmationController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: widget.passwordConfirmationController.text.length),
+                widget.passwordConfirmationController.text =
+                    value.substring(0, _numberBullet); // Limit input
+                widget.passwordConfirmationController.selection =
+                    TextSelection.fromPosition(
+                  TextPosition(
+                      offset:
+                          widget.passwordConfirmationController.text.length),
                 );
               }
               if (value.length == widget.passwordController.text.length) {
@@ -374,14 +379,13 @@ class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
                 widget.isTrue!(false);
               }
             },
-
-            onTap: (){
+            onTap: () {
               widget.onTapPasswordConfirmation;
             },
-            onEditingComplete: (){
+            onEditingComplete: () {
               widget.onEditionCompletePasswordConfirmation;
             },
-            onFieldSubmitted: (value){
+            onFieldSubmitted: (value) {
               widget.onFieldSubmittedPasswordConfirmation?.call(value);
             },
             maxLength: widget.maxLengthPassword,
@@ -394,7 +398,6 @@ class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
             cursorHeight: widget.cursorHeightPasswordConfirmation,
             cursorColor: widget.cursorColorPasswordConfirmation,
             scrollPadding: widget.scrollPaddingPasswordConfirmation!,
-
           ),
         ),
       ],
