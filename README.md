@@ -35,52 +35,51 @@ PasswordConfirmationStyle(
 ),
 ```
 ### All Properties
-/// - [passwordController]: A controller for managing the password text field.
-/// - [passwordConfirmationController]: A controller for managing the confirmation password text field.
-/// - [iconColorMatched]: Color for matched characters (default is Colors.green).
-/// - [iconColorUnMatched]: Color for unmatched characters (default is Colors.red).
-/// - [iconColorInitial]: Color before any input is entered (default is Colors.transparent).
-/// - [icon]: Icon to represent each character (default is a Icons.circle).
-/// - [iconSize]: Size of the icon (default is 9.0).
-/// - [iconPaddingVertical]: Vertical padding for icons (default is 1.0).
-/// - [iconPaddingHorizontal]: Horizontal padding for icons (default is 1.0).
-/// - [isTrue]: Callback function that returns a boolean indicating if the passwords match.
-/// - [stylePassword]: Style for the password text field.
-/// - [stylePasswordConfirmation]: Style for the confirmation text field.
-/// - [inputDecorationPassword]: Decoration for the password field.
-/// - [inputDecorationPasswordConfirmation]: Decoration for the confirmation field.
-/// - [validatorPassword]: Validator for password field.
-/// - [validatorPasswordConfirmation]: Validator for confirmation field.
-/// - [onChangedPassword]: Callback for password change.
-/// - [onChangedPasswordConfirmation]: Callback for confirmation change.
-/// - [onTapPassword]: Callback for password field tap.
-/// - [onTapPasswordConfirmation]: Callback for confirmation field tap.
-/// - [onEditionCompletePassword]: Callback for password edit completion.
-/// - [onEditionCompletePasswordConfirmation]: Callback for confirmation edit completion.
-/// - [onFieldSubmittedPassword]: Callback for password submission.
-/// - [onFieldSubmittedPasswordConfirmation]: Callback for confirmation submission.
-/// - [maxLengthPassword]: Max length for password input.
-/// - [obscuringCharacterPassword]: Character used for obscuring password.
-/// - [obscuringCharacterPasswordConfirmation]: Character used for obscuring confirmation.
-/// - [obscureTextPassword]: Whether to obscure password text (default is false).
-/// - [obscureTextPasswordConfirmation]: Whether to obscure confirmation text (default is false).
-/// - [focusNodePassword]: Focus node for password field.
-/// - [focusNodePasswordConfirmation]: Focus node for confirmation field.
-/// - [showCursorPassword]: Whether to show cursor in password field.
-/// - [showCursorPasswordConfirmation]: Whether to show cursor in confirmation field.
-/// - [enabledPassword]: Whether password field is enabled.
-/// - [enabledPasswordConfirmation]: Whether confirmation field is enabled.
-/// - [cursorWidthPassword]: Width of the cursor in password field.
-/// - [cursorWidthPasswordConfirmation]: Width of the cursor in confirmation field.
-/// - [cursorHeightPassword]: Height of the cursor in password field.
-/// - [cursorHeightPasswordConfirmation]: Height of the cursor in confirmation field.
-/// - [cursorColorPassword]: Color of the cursor in password field.
-/// - [cursorColorPasswordConfirmation]: Color of the cursor in confirmation field.
-/// - [scrollPaddingPassword]: Scroll padding for password field.
-/// - [scrollPaddingPasswordConfirmation]: Scroll padding for confirmation field.
+* [passwordController]: A controller for managing the password text field.
+* [passwordConfirmationController]: A controller for managing the confirmation password text field.
+* [iconColorMatched]: Color for matched characters (default is Colors.green).
+* [iconColorUnMatched]: Color for unmatched characters (default is Colors.red).
+* [iconColorInitial]: Color before any input is entered (default is Colors.transparent).
+* [icon]: Icon to represent each character (default is a Icons.circle).
+* [iconSize]: Size of the icon (default is 9.0).
+* [iconPaddingVertical]: Vertical padding for icons (default is 1.0).
+* [iconPaddingHorizontal]: Horizontal padding for icons (default is 1.0).
+* [isTrue]: Callback function that returns a boolean indicating if the passwords match.
+* [stylePassword]: Style for the password text field.
+* [stylePasswordConfirmation]: Style for the confirmation text field.
+* [inputDecorationPassword]: Decoration for the password field.
+* [inputDecorationPasswordConfirmation]: Decoration for the confirmation field.
+* [validatorPassword]: Validator for password field.
+* [validatorPasswordConfirmation]: Validator for confirmation field.
+* [onChangedPassword]: Callback for password change.
+* [onChangedPasswordConfirmation]: Callback for confirmation change.
+* [onTapPassword]: Callback for password field tap.
+* [onTapPasswordConfirmation]: Callback for confirmation field tap.
+* [onEditionCompletePassword]: Callback for password edit completion.
+* [onEditionCompletePasswordConfirmation]: Callback for confirmation edit completion.
+* [onFieldSubmittedPassword]: Callback for password submission.
+* [onFieldSubmittedPasswordConfirmation]: Callback for confirmation submission.
+* [maxLengthPassword]: Max length for password input.
+* [obscuringCharacterPassword]: Character used for obscuring password.
+* [obscuringCharacterPasswordConfirmation]: Character used for obscuring confirmation.
+* [obscureTextPassword]: Whether to obscure password text (default is false).
+* [obscureTextPasswordConfirmation]: Whether to obscure confirmation text (default is false).
+* [focusNodePassword]: Focus node for password field.
+* [focusNodePasswordConfirmation]: Focus node for confirmation field.
+* [showCursorPassword]: Whether to show cursor in password field.
+* [showCursorPasswordConfirmation]: Whether to show cursor in confirmation field.
+* [enabledPassword]: Whether password field is enabled.
+* [enabledPasswordConfirmation]: Whether confirmation field is enabled.
+* [cursorWidthPassword]: Width of the cursor in password field.
+* [cursorWidthPasswordConfirmation]: Width of the cursor in confirmation field.
+* [cursorHeightPassword]: Height of the cursor in password field.
+* [cursorHeightPasswordConfirmation]: Height of the cursor in confirmation field.
+* [cursorColorPassword]: Color of the cursor in password field.
+* [cursorColorPasswordConfirmation]: Color of the cursor in confirmation field.
+* [scrollPaddingPassword]: Scroll padding for password field.
+* [scrollPaddingPasswordConfirmation]: Scroll padding for confirmation field.
 
-<br/>
-## Example Project
+### Example Project
 ### You can use this [example project](https://github.com/FranckSiyapze/password_confirmation_style/tree/master/example) to see how it works.
 <br>
 
