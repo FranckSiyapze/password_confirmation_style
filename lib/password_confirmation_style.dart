@@ -4,62 +4,89 @@ import 'package:flutter/material.dart';
 
 /// A widget that provides password confirmation functionality with visual feedback.
 ///
-/// This widget displays two text fields for password and password confirmation.
-/// It provides real-time visual feedback by comparing the characters entered
-/// in both fields and displays matching or unmatched indicators.
+/// Displays a password field and a confirmation field, comparing them
+/// character by character in real time. Each comparison is shown as a small
+/// dash centered directly beneath the corresponding character of the
+/// password field, so mismatches can be traced back to an exact position.
 ///
-/// The [PasswordConfirmationStyle] widget allows customization through various
-/// parameters including styles, decorations, and behaviors for both password
-/// fields. It also supports callbacks for different events such as changes
-/// to the text fields.
-///
+/// The [PasswordConfirmationStyle] widget exposes a large set of
+/// customization options (styles, decorations, callbacks) for both fields,
+/// while shipping with a clean, theme-aware default look out of the box.
 class PasswordConfirmationStyle extends StatefulWidget {
-  /// A controller for managing the password text field.
+  /// Controller for the password field.
   final TextEditingController passwordController;
 
-  /// A controller for managing the confirmation password text field.
+  /// Controller for the confirmation field.
   final TextEditingController passwordConfirmationController;
 
-  /// Color for matched characters (default is green).
+  /// Color for matched characters (default: emerald green).
   final Color? iconColorMatched;
 
-  /// Color for unmatched characters (default is red).
+  /// Color for unmatched characters (default: soft red).
   final Color? iconColorUnMatched;
 
-  /// Color before any input is entered (default is transparent).
+  /// Color before any comparison exists (default: transparent).
   final Color? iconColorInitial;
 
-  /// Icon to represent each character (default is a circle).
+  /// Optional custom icon for each indicator. Leave null (the default) to
+  /// use the built-in dash shape, precisely centered under each character
+  /// and sized via [dashWidth]/[dashHeight].
   final IconData? icon;
 
-  /// Size of the icon (default is 9.0).
+  /// Size of each indicator ONLY when a custom [icon] is provided
+  /// (default: 8.0). Ignored in the default dash mode.
   final double? iconSize;
 
-  /// Vertical padding for icons (default is 1.0).
+  /// Vertical offset between the password field and the indicator row
+  /// (default: 2.0).
   final double? iconPaddingVertical;
 
-  /// Horizontal padding for icons (default is 1.0).
+  /// Horizontal gap subtracted from each character's measured width when
+  /// sizing its dash, controlling the empty space between adjacent dashes
+  /// (default: 3.0). Only applies in the default dash mode.
   final double? iconPaddingHorizontal;
 
-  /// Callback function that returns a boolean indicating if the passwords match.
+  /// Maximum width of each dash-style indicator, used when [icon] is not
+  /// set (default: 14.0). Each dash is centered under its corresponding
+  /// character and shrinks to fit that character's width when it is
+  /// narrower than this value, so a dash never looks wider than the digit
+  /// it represents.
+  final double? dashWidth;
+
+  /// Height (thickness) of each dash-style indicator, used when [icon] is
+  /// not set (default: 3.0).
+  final double? dashHeight;
+
+  /// Whether the "Password" / "Confirm password" labels float above the
+  /// field once it's focused or filled (Material's usual behavior). Set to
+  /// `false` to keep the label fixed in place instead — it then behaves
+  /// like a placeholder that fades out once you start typing, and never
+  /// jumps above the field. Applies to BOTH fields at once (default: true).
+  final bool? floatingLabel;
+
+  /// Called whenever the match state changes, with `true` if both fields
+  /// currently match exactly (same length, same characters).
   final Function(bool)? isTrue;
 
-  /// Style for the password text field.
+  /// Style for the password text field. Also used to measure character
+  /// widths so the dashes line up with what's actually rendered.
   final TextStyle? stylePassword;
 
   /// Style for the confirmation text field.
   final TextStyle? stylePasswordConfirmation;
 
-  /// Decoration for the password field.
+  /// Decoration for the password field. Leave null to use the built-in,
+  /// theme-aware default (filled, borderless, rounded corners).
   final InputDecoration? inputDecorationPassword;
 
-  /// Decoration for the confirmation field.
+  /// Decoration for the confirmation field. Leave null to use the built-in,
+  /// theme-aware default.
   final InputDecoration? inputDecorationPasswordConfirmation;
 
   /// Validator for password field.
   final String? Function(String?)? validatorPassword;
 
-  /// Validator for confirmation field.
+  /// Validator for confirmation field. Now actually wired up.
   final String? Function(String)? validatorPasswordConfirmation;
 
   /// Callback for password change.
@@ -143,73 +170,33 @@ class PasswordConfirmationStyle extends StatefulWidget {
   /// Scroll padding for confirmation field.
   final EdgeInsets? scrollPaddingPasswordConfirmation;
 
-  /// Parameters:
-  /// - [passwordController]: A controller for managing the password text field.
-  /// - [passwordConfirmationController]: A controller for managing the confirmation password text field.
-  /// - [iconColorMatched]: Color for matched characters (default is green).
-  /// - [iconColorUnMatched]: Color for unmatched characters (default is red).
-  /// - [iconColorInitial]: Color before any input is entered (default is transparent).
-  /// - [icon]: Icon to represent each character (default is a circle).
-  /// - [iconSize]: Size of the icon (default is 9.0).
-  /// - [iconPaddingVertical]: Vertical padding for icons (default is 1.0).
-  /// - [iconPaddingHorizontal]: Horizontal padding for icons (default is 1.0).
-  /// - [isTrue]: Callback function that returns a boolean indicating if the passwords match.
-  /// - [stylePassword]: Style for the password text field.
-  /// - [stylePasswordConfirmation]: Style for the confirmation text field.
-  /// - [inputDecorationPassword]: Decoration for the password field.
-  /// - [inputDecorationPasswordConfirmation]: Decoration for the confirmation field.
-  /// - [validatorPassword]: Validator for password field.
-  /// - [validatorPasswordConfirmation]: Validator for confirmation field.
-  /// - [onChangedPassword]: Callback for password change.
-  /// - [onChangedPasswordConfirmation]: Callback for confirmation change.
-  /// - [onTapPassword]: Callback for password field tap.
-  /// - [onTapPasswordConfirmation]: Callback for confirmation field tap.
-  /// - [onEditionCompletePassword]: Callback for password edit completion.
-  /// - [onEditionCompletePasswordConfirmation]: Callback for confirmation edit completion.
-  /// - [onFieldSubmittedPassword]: Callback for password submission.
-  /// - [onFieldSubmittedPasswordConfirmation]: Callback for confirmation submission.
-  /// - [maxLengthPassword]: Max length for password input.
-  /// - [obscuringCharacterPassword]: Character used for obscuring password.
-  /// - [obscuringCharacterPasswordConfirmation]: Character used for obscuring confirmation.
-  /// - [obscureTextPassword]: Whether to obscure password text (default is false).
-  /// - [obscureTextPasswordConfirmation]: Whether to obscure confirmation text (default is false).
-  /// - [focusNodePassword]: Focus node for password field.
-  /// - [focusNodePasswordConfirmation]: Focus node for confirmation field.
-  /// - [showCursorPassword]: Whether to show cursor in password field.
-  /// - [showCursorPasswordConfirmation]: Whether to show cursor in confirmation field.
-  /// - [enabledPassword]: Whether password field is enabled.
-  /// - [enabledPasswordConfirmation]: Whether confirmation field is enabled.
-  /// - [cursorWidthPassword]: Width of the cursor in password field.
-  /// - [cursorWidthPasswordConfirmation]: Width of the cursor in confirmation field.
-  /// - [cursorHeightPassword]: Height of the cursor in password field.
-  /// - [cursorHeightPasswordConfirmation]: Height of the cursor in confirmation field.
-  /// - [cursorColorPassword]: Color of the cursor in password field.
-  /// - [cursorColorPasswordConfirmation]: Color of the cursor in confirmation field.
-  /// - [scrollPaddingPassword]: Scroll padding for password field.
-  /// - [scrollPaddingPasswordConfirmation]: Scroll padding for confirmation field.
-
+  /// Creates a [PasswordConfirmationStyle] widget.
+  ///
+  /// [passwordController] and [passwordConfirmationController] are required;
+  /// every other parameter is optional and falls back to a clean,
+  /// theme-aware default (see the field docs above for details on each).
   const PasswordConfirmationStyle({
     super.key,
     required this.passwordController,
     required this.passwordConfirmationController,
-    this.iconColorMatched = Colors.green,
-    this.iconColorUnMatched = Colors.red,
+    this.iconColorMatched = const Color(0xFF2ECC71),
+    this.iconColorUnMatched = const Color(0xFFE74C3C),
     this.iconColorInitial = Colors.transparent,
-    this.icon = Icons.circle,
-    this.iconSize = 9.0,
-    this.iconPaddingVertical = 1.0,
-    this.iconPaddingHorizontal = 1.0,
+    // null by default -> renders the clean dash shape instead of an icon.
+    this.icon,
+    this.iconSize = 8.0,
+    this.iconPaddingVertical = 2.0,
+    this.iconPaddingHorizontal = 3.0,
+    this.dashWidth = 14.0,
+    this.dashHeight = 3.0,
+    this.floatingLabel = true,
     this.isTrue,
     this.stylePassword,
     this.stylePasswordConfirmation,
-    this.inputDecorationPassword = const InputDecoration(
-      labelText: 'Password',
-      border: OutlineInputBorder(),
-    ),
-    this.inputDecorationPasswordConfirmation = const InputDecoration(
-      labelText: 'Confirmation Password',
-      border: OutlineInputBorder(),
-    ),
+    // Left null on purpose: the clean default decoration is computed at
+    // build time from the surrounding Theme (see _defaultDecoration).
+    this.inputDecorationPassword,
+    this.inputDecorationPasswordConfirmation,
     this.validatorPassword,
     this.validatorPasswordConfirmation,
     this.onChangedPassword,
@@ -246,158 +233,306 @@ class PasswordConfirmationStyle extends StatefulWidget {
       PasswordConfirmationStyleState();
 }
 
-/// The [PasswordConfirmationStyle] widget allows customization through various
-/// parameters including styles, decorations, and behaviors for both password
-/// fields. It also supports callbacks for different events such as changes
-/// to the text fields.
-///
-class PasswordConfirmationStyleState extends State<PasswordConfirmationStyle> {
+/// State for [PasswordConfirmationStyle]. Tracks the live character-by-character
+/// comparison between the two fields and drives the indicator row.
+class PasswordConfirmationStyleState
+    extends State<PasswordConfirmationStyle> {
   List<bool> _charComparisonResults = [];
   int _numberBullet = 0;
 
-  void _compareChars(String confirmPassword) {
-    String password = widget.passwordController.text.trim();
+  @override
+  void initState() {
+    super.initState();
+    // Handles the case where the controller already has text when the
+    // widget is first built (e.g. restoring a draft).
+    _numberBullet = widget.passwordController.text.length;
+  }
 
-    List<bool> comparisonResults = [];
-    int minLength = password.length < confirmPassword.length
-        ? password.length
-        : confirmPassword.length;
+  /// Recomputes the character-by-character comparison and notifies
+  /// [PasswordConfirmationStyle.isTrue]. Called from BOTH fields' onChanged
+  /// so the indicators stay in sync no matter which field the user edits.
+  void _recomputeComparison() {
+    final String password = widget.passwordController.text;
+    final String confirmation = widget.passwordConfirmationController.text;
 
-    for (int i = 0; i < minLength; i++) {
-      comparisonResults.add(password[i] == confirmPassword[i]);
-    }
+    final int minLength =
+    password.length < confirmation.length ? password.length : confirmation.length;
+
+    final List<bool> results = List<bool>.generate(
+      minLength,
+          (i) => password[i] == confirmation[i],
+    );
 
     setState(() {
-      _charComparisonResults = comparisonResults;
+      _charComparisonResults = results;
     });
+
+    final bool lengthsMatch = confirmation.length == password.length;
+    widget.isTrue?.call(lengthsMatch && _allValuesAreSame(results));
   }
 
   bool _allValuesAreSame(List<bool> comparisonResults) {
-    final distinctValues = comparisonResults.toSet();
-    return distinctValues.length == 1 &&
-        distinctValues.first; // All true or all false
+    if (comparisonResults.isEmpty) return false;
+    return comparisonResults.every((v) => v);
+  }
+
+  /// Clean, theme-aware default look: filled, borderless, rounded corners,
+  /// focus ring picked up from the app's own primary color so the widget
+  /// blends into whatever theme it's dropped into.
+  InputDecoration _defaultDecoration(BuildContext context, String label) {
+    final ThemeData theme = Theme.of(context);
+    final bool isDark = theme.brightness == Brightness.dark;
+    return InputDecoration(
+      labelText: label,
+      filled: true,
+      fillColor:
+      isDark ? Colors.white.withOpacity(0.06) : Colors.black.withOpacity(0.035),
+      counterText: '',
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: theme.colorScheme.primary, width: 1.4),
+      ),
+      labelStyle: TextStyle(color: theme.hintColor, fontSize: 14),
+    );
+  }
+
+  /// Resolves the decoration to use for a field: [custom] if provided,
+  /// otherwise the built-in default — then applies [floatingLabel] on top
+  /// either way, so the toggle works globally regardless of customization.
+  InputDecoration _resolveDecoration(
+      BuildContext context,
+      InputDecoration? custom,
+      String label,
+      ) {
+    final InputDecoration base = custom ?? _defaultDecoration(context, label);
+    final FloatingLabelBehavior behavior = (widget.floatingLabel ?? true)
+        ? FloatingLabelBehavior.auto
+        : FloatingLabelBehavior.never;
+    return base.copyWith(floatingLabelBehavior: behavior);
+  }
+
+  /// Measures the rendered width of [text] using [style], the same way the
+  /// underlying [TextField] would lay it out (same font, letter spacing).
+  double _measureTextWidth(String text, TextStyle style) {
+    final TextPainter painter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    return painter.width;
+  }
+
+  /// Returns cumulative pixel widths: widths[i] is the x-offset where
+  /// character i starts, widths[text.length] is the total text width.
+  /// Measuring growing substrings (rather than summing individual glyph
+  /// widths) keeps letter-spacing/kerning consistent with the real field.
+  List<double> _prefixWidths(String text, TextStyle style) {
+    final List<double> widths = <double>[0.0];
+    for (int i = 1; i <= text.length; i++) {
+      widths.add(_measureTextWidth(text.substring(0, i), style));
+    }
+    return widths;
+  }
+
+  /// Builds one indicator, positioned and sized to sit directly under its
+  /// corresponding character.
+  Widget _buildIndicatorAt({
+    required double centerX,
+    required double cellWidth,
+    required Color bgColor,
+    required double top,
+    required double gap,
+  }) {
+    if (widget.icon != null) {
+      final double size = widget.iconSize ?? 8.0;
+      return Positioned(
+        left: centerX - size / 2,
+        top: top,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 150),
+          child: Icon(
+            widget.icon,
+            key: ValueKey<Color>(bgColor),
+            size: size,
+            color: bgColor,
+          ),
+        ),
+      );
+    }
+
+    final double maxWidth = widget.dashWidth ?? 14.0;
+    final double h = widget.dashHeight ?? 3.0;
+    double w = cellWidth - gap;
+    if (w > maxWidth) w = maxWidth;
+    if (w < 3.0) w = 3.0;
+
+    return Positioned(
+      left: centerX - w / 2,
+      top: top,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.easeOut,
+        width: w,
+        height: h,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(h / 2),
+        ),
+      ),
+    );
+  }
+
+  /// Builds the full indicator row, with each dash centered under its
+  /// matching character in the password field above.
+  Widget _buildIndicatorsRow(BuildContext context) {
+    final String password = widget.passwordController.text;
+    if (password.isEmpty) return const SizedBox.shrink();
+
+    final bool obscure = widget.obscureTextPassword ?? false;
+    final String obscuringChar = widget.obscuringCharacterPassword ?? '•';
+    final String display = obscure ? obscuringChar * password.length : password;
+
+    final TextStyle style =
+        widget.stylePassword ?? const TextStyle(letterSpacing: 1.2, fontSize: 16);
+
+    // Mirrors the horizontal inset the password TextFormField actually uses
+    // (its own outer Padding + the decoration's contentPadding), so dashes
+    // line up with the real text position.
+    final EdgeInsetsGeometry? rawContentPadding =
+        widget.inputDecorationPassword?.contentPadding;
+    final EdgeInsets contentPadding = rawContentPadding is EdgeInsets
+        ? rawContentPadding
+        : const EdgeInsets.symmetric(horizontal: 16, vertical: 14);
+    const double fieldOuterPadding = 4.0;
+    final double leftInset = fieldOuterPadding + contentPadding.left;
+
+    final List<double> prefixWidths = _prefixWidths(display, style);
+    final double totalTextWidth = prefixWidths.last;
+
+    final double gap = widget.iconPaddingHorizontal ?? 3.0;
+    final double vPad = widget.iconPaddingVertical ?? 2.0;
+    final double indicatorHeight =
+    widget.icon != null ? (widget.iconSize ?? 8.0) : (widget.dashHeight ?? 3.0);
+
+    final List<Widget> indicators = <Widget>[];
+    for (int i = 0; i < password.length; i++) {
+      final double cellWidth = prefixWidths[i + 1] - prefixWidths[i];
+      final double centerX = leftInset + prefixWidths[i] + cellWidth / 2;
+      final Color bgColor = i < _charComparisonResults.length
+          ? (_charComparisonResults[i]
+          ? (widget.iconColorMatched ?? const Color(0xFF2ECC71))
+          : (widget.iconColorUnMatched ?? const Color(0xFFE74C3C)))
+          : (widget.iconColorInitial ?? Colors.transparent);
+
+      indicators.add(_buildIndicatorAt(
+        centerX: centerX,
+        cellWidth: cellWidth,
+        bgColor: bgColor,
+        top: vPad,
+        gap: gap,
+      ));
+    }
+
+    // Horizontal scroll = safety net if the password ever overflows the
+    // field's visible width; harmless (no scrolling) for normal lengths.
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: leftInset + totalTextWidth + gap,
+        height: indicatorHeight + vPad * 2,
+        child: Stack(children: indicators),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
           child: TextFormField(
             controller: widget.passwordController,
             style: widget.stylePassword ??
-                const TextStyle(
-                  letterSpacing: 1.4,
-                  fontSize: 16,
-                ),
-            decoration: widget.inputDecorationPassword,
+                const TextStyle(letterSpacing: 1.2, fontSize: 16),
+            decoration: _resolveDecoration(
+                context, widget.inputDecorationPassword, 'Password'),
             validator: widget.validatorPassword,
             onChanged: (value) {
               widget.onChangedPassword?.call(value);
-              setState(() {
-                _numberBullet = value.length; // Update bullet count
-              });
+              setState(() => _numberBullet = value.length);
+              _recomputeComparison();
             },
-            onTap: () {
-              widget.onTapPassword;
-            },
-            onEditingComplete: () {
-              widget.onEditionCompletePassword;
-            },
+            onTap: () => widget.onTapPassword?.call(),
+            onEditingComplete: () => widget.onEditionCompletePassword?.call(),
             onFieldSubmitted: (value) {
               widget.onFieldSubmittedPassword?.call(value);
             },
             maxLength: widget.maxLengthPassword,
-            obscuringCharacter: widget.obscuringCharacterPassword!,
-            obscureText: widget.obscureTextPassword!,
+            obscuringCharacter: widget.obscuringCharacterPassword ?? '•',
+            obscureText: widget.obscureTextPassword ?? false,
             focusNode: widget.focusNodePassword,
             showCursor: widget.showCursorPassword,
             enabled: widget.enabledPassword,
-            cursorWidth: widget.cursorWidthPassword!,
+            cursorWidth: widget.cursorWidthPassword ?? 2.0,
             cursorHeight: widget.cursorHeightPassword,
             cursorColor: widget.cursorColorPassword,
-            scrollPadding: widget.scrollPaddingPassword!,
+            scrollPadding: widget.scrollPaddingPassword ?? const EdgeInsets.all(20.0),
           ),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width / 25,
-            vertical: 5.0,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: List.generate(_numberBullet, (index) {
-              Color bgColor;
-              if (index < _charComparisonResults.length) {
-                bgColor = _charComparisonResults[index]
-                    ? widget.iconColorMatched!
-                    : widget.iconColorUnMatched!;
-              } else {
-                bgColor = widget.iconColorInitial!; // No comparison yet
-              }
-              return Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: widget.iconPaddingHorizontal ?? 1.0,
-                  vertical: widget.iconPaddingVertical ?? 1.0,
-                ),
-                child: Icon(
-                  widget.icon!,
-                  size: widget.iconSize!,
-                  color: bgColor,
-                ), // Bullet point
-              );
-            }),
-          ),
-        ),
+        if (_numberBullet > 0) _buildIndicatorsRow(context),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
           child: TextFormField(
             controller: widget.passwordConfirmationController,
             style: widget.stylePasswordConfirmation ??
-                const TextStyle(
-                  letterSpacing: 1.4,
-                ),
-            readOnly: (_numberBullet == 0),
-            decoration: widget.inputDecorationPasswordConfirmation,
+                const TextStyle(letterSpacing: 1.2, fontSize: 16),
+            readOnly: _numberBullet == 0,
+            decoration: _resolveDecoration(context,
+                widget.inputDecorationPasswordConfirmation, 'Confirm password'),
+            validator: widget.validatorPasswordConfirmation == null
+                ? null
+                : (value) => widget.validatorPasswordConfirmation!(value ?? ''),
             onChanged: (value) {
-              _compareChars(value);
-              widget.onChangedPasswordConfirmation?.call(value);
               if (value.length > _numberBullet) {
-                widget.passwordConfirmationController.text =
-                    value.substring(0, _numberBullet); // Limit input
-                widget.passwordConfirmationController.selection =
-                    TextSelection.fromPosition(
-                  TextPosition(
-                      offset:
-                          widget.passwordConfirmationController.text.length),
+                final String clipped = value.substring(0, _numberBullet);
+                widget.passwordConfirmationController.value = TextEditingValue(
+                  text: clipped,
+                  selection: TextSelection.collapsed(offset: clipped.length),
                 );
+                value = clipped;
               }
-              if (value.length == widget.passwordController.text.length) {
-                widget.isTrue!(_allValuesAreSame(_charComparisonResults));
-              } else {
-                widget.isTrue!(false);
-              }
+              widget.onChangedPasswordConfirmation?.call(value);
+              _recomputeComparison();
             },
-            onTap: () {
-              widget.onTapPasswordConfirmation;
-            },
-            onEditingComplete: () {
-              widget.onEditionCompletePasswordConfirmation;
-            },
+            onTap: () => widget.onTapPasswordConfirmation?.call(),
+            onEditingComplete: () =>
+                widget.onEditionCompletePasswordConfirmation?.call(),
             onFieldSubmitted: (value) {
               widget.onFieldSubmittedPasswordConfirmation?.call(value);
             },
             maxLength: widget.maxLengthPassword,
-            obscuringCharacter: widget.obscuringCharacterPasswordConfirmation!,
-            obscureText: widget.obscureTextPasswordConfirmation!,
+            obscuringCharacter:
+            widget.obscuringCharacterPasswordConfirmation ?? '•',
+            obscureText: widget.obscureTextPasswordConfirmation ?? false,
             focusNode: widget.focusNodePasswordConfirmation,
             showCursor: widget.showCursorPasswordConfirmation,
             enabled: widget.enabledPasswordConfirmation,
-            cursorWidth: widget.cursorWidthPasswordConfirmation!,
+            cursorWidth: widget.cursorWidthPasswordConfirmation ?? 2.0,
             cursorHeight: widget.cursorHeightPasswordConfirmation,
             cursorColor: widget.cursorColorPasswordConfirmation,
-            scrollPadding: widget.scrollPaddingPasswordConfirmation!,
+            scrollPadding:
+            widget.scrollPaddingPasswordConfirmation ?? const EdgeInsets.all(20.0),
           ),
         ),
       ],
