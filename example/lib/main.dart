@@ -48,7 +48,7 @@ class _TestPageState extends State<TestPage> {
 
   /// Controller for the confirmation password text field.
   final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
 
   /// Indicates whether the password and confirmation match.
   bool _isTrue = false;
@@ -90,7 +90,7 @@ class _TestPageState extends State<TestPage> {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: scheme.primary.withOpacity(0.1),
+                    color: scheme.primary.withOpacity(0.1), // ignore: deprecated_member_use
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(Icons.lock_outline_rounded,
@@ -105,7 +105,8 @@ class _TestPageState extends State<TestPage> {
                 const SizedBox(height: 6),
                 Text(
                   'Choisis un mot de passe sécurisé et confirme-le pour continuer.',
-                  style: textTheme.bodyMedium?.copyWith(color: scheme.outline),
+                  style:
+                  textTheme.bodyMedium?.copyWith(color: scheme.outline),
                 ),
                 const SizedBox(height: 32),
                 PasswordConfirmationStyle(
@@ -124,7 +125,7 @@ class _TestPageState extends State<TestPage> {
                   decoration: BoxDecoration(
                     color: _isTrue
                         ? scheme.primary
-                        : scheme.onSurface.withOpacity(0.08),
+                        : scheme.onSurface.withOpacity(0.08), // ignore: deprecated_member_use
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Material(
@@ -133,8 +134,8 @@ class _TestPageState extends State<TestPage> {
                       borderRadius: BorderRadius.circular(14),
                       onTap: _isTrue
                           ? () {
-                              // TODO: hook up your submit logic here.
-                            }
+                        // TODO: hook up your submit logic here.
+                      }
                           : null,
                       child: Center(
                         child: Text(
@@ -142,7 +143,7 @@ class _TestPageState extends State<TestPage> {
                           style: TextStyle(
                             color: _isTrue
                                 ? scheme.onPrimary
-                                : scheme.onSurface.withOpacity(0.35),
+                                : scheme.onSurface.withOpacity(0.35), // ignore: deprecated_member_use
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),

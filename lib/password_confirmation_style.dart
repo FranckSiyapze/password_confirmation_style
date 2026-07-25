@@ -285,8 +285,12 @@ class PasswordConfirmationStyleState
     return InputDecoration(
       labelText: label,
       filled: true,
-      fillColor:
-      isDark ? Colors.white.withOpacity(0.06) : Colors.black.withOpacity(0.035),
+      // withValues() requires Flutter 3.27+; using withOpacity() here keeps
+      // the package compatible with older Flutter SDKs. Safe to switch to
+      // withValues(alpha: ...) once your minimum supported Flutter is 3.27+.
+      fillColor: isDark
+          ? Colors.white.withOpacity(0.06) // ignore: deprecated_member_use
+          : Colors.black.withOpacity(0.035), // ignore: deprecated_member_use
       counterText: '',
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
