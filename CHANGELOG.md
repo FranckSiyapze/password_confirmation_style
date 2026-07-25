@@ -1,3 +1,7 @@
+## [0.1.1] - 2024/09/27
+
+* v0.1.1: dash indicators, floating label toggle, bug fixes, docs update
+
 ## [0.1.0] - 2026/07/25
 
 * New: default indicators are now dash-shaped and precisely centered under each character of the password field, instead of a fixed-size row of dots/icons, so a mismatch can be traced back to an exact position.
